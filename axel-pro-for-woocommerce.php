@@ -18,6 +18,75 @@ Domain Path:  /languages
  * Date: 2/27/2018
  * Time: 8:03 PM
  */
+
+/* Add the feed. */
+function my_custom_rss_init(){
+	add_feed('axelpro', 'my_custom_rss');
+}
+add_action('init', 'my_custom_rss_init');
+/* Filter the type, this hook wil set the correct HTTP header for Content-type. */
+function my_custom_rss_content_type( $content_type, $type ) {
+	if ( 'my_custom_feed' === $type ) {
+		return feed_content_type( 'rss2' );
+	}
+	return $content_type;
+}
+add_filter( 'feed_content_type', 'my_custom_rss_content_type', 10, 2 );
+
+/* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
+function my_custom_rss() {
+	header("Content-Type: application/xml; charset=utf-8");
+	$col = new collector();
+	$col->collectOrders();
+
+	$axel = new axelProXML($col->getOrders());
+	$axel->generateXML();
+	print ($axel->getXML());
+	$col->setPostedOrdesStatus();
+}
+
+function axel_pro_create_table() {
+	global $wpdb;
+	global $axel_pro_db_name;
+	$wpdb->axel_pro_table_name = $wpdb->prefix . 'axel_pro';
+
+	// create the ECPT metabox database table
+	if($wpdb->get_var("show tables like '$wpdb->axel_pro_table_name'") != $wpdb->axel_pro_table_name)
+	{
+
+		$sql = "CREATE TABLE " . $wpdb->axel_pro_table_name . " (
+		`id` INT NOT NULL AUTO_INCREMENT,
+		`orderID` INT NOT NULL,
+		`posted` TINYINT NOT NULL,
+		PRIMARY KEY (`orderID`),
+		INDEX `id` (`id` ASC));
+		";
+
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		dbDelta($sql);
+	}
+}
+
+register_activation_hook(__FILE__,'axel_pro_create_table');
+
+function axel_pro_woocommerce_payment_complete( $order_id ) {
+	global $wpdb;
+	$wpdb->insert($wpdb->prefix . 'axel_pro', array(
+		'orderID' => $order_id,
+		'posted' => 0,
+	));
+}
+add_action( 'woocommerce_order_status_completed', 'axel_pro_woocommerce_payment_complete', 10, 1 );
+
+add_action( 'init', 'my_rewrite' );
+function my_rewrite() {
+	global $wp_rewrite;
+
+	add_rewrite_rule('axelpro/?$', 'wp-login.php', 'top');
+	$wp_rewrite->flush_rules(true);  // This should really be done in a plugin activation
+}
+
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
@@ -93,8 +162,8 @@ class axel_pro_for_woocommerce
          * 	 	- WP_LANG_DIR/plugins/axel-pro-for-woocommerce-LOCALE.mo
          */
         foreach ($textdomains as $textdomain) {
-            load_textdomain( $textdomain, $dir . 'axel-pro-for-woocommerce/axel-pro-for-woocommerce-' . $locale . '.mo' );
-            load_textdomain( $textdomain, $dir . 'plugins/axel-pro-for-woocommerce-' . $locale . '.mo' );
+            load_textdomain( $textdomain, $dir . 'axel-pro-for-woocommerce/axel-pro-for-woocommerce' . $locale . '.mo' );
+            load_textdomain( $textdomain, $dir . 'plugins/axel-pro-for-woocommerce' . $locale . '.mo' );
             load_plugin_textdomain( $textdomain, false, dirname( plugin_basename(__FILE__) ) . '/languages' );
         }
     }
@@ -161,10 +230,13 @@ class axel_pro_for_woocommerce
         include_once( $this->plugin_path() . '/includes/dao/customer.php' );
         include_once( $this->plugin_path() . '/includes/dao/item.php' );
         include_once( $this->plugin_path() . '/includes/dao/order.php' );
-        $this->settings = include_once( $this->plugin_path() . '/includes/axel_pro_settings.php' );
-        $this->main = include_once( $this->plugin_path() . '/includes/axel_pro_main.php' );
+        $this->settings = include_once( $this->plugin_path() . '/includes/service/axel_pro_settings.php' );
+        //$this->main = include_once( $this->plugin_path() . '/includes/axel_pro_main.php' );
         include_once( $this->plugin_path() . '/includes/service/collector.php' );
+	    include_once( $this->plugin_path() . '/includes/service/db.php' );
         include_once( $this->plugin_path() . '/includes/service/axel-pro/axelProXML.php' );
+	    include_once( $this->plugin_path() . '/includes/service/impl/db/pdoDB.php' );
+	    include_once( $this->plugin_path() . '/includes/service/impl/db/wpDB.php' );
     }
 
     /**

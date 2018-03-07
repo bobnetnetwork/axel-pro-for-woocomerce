@@ -8,51 +8,34 @@
 
 class collector
 {
-    private $orders = array();
+	private $orders = array();
+    private $db;
 
     public function __construct(){
-
+		//$this->db = new pdoDB('localhost', '', 'shop', 'xc22DM93JN', 'shop', 'utf8', 'mysql');
+	    global $wpdb;
+	    $this->db = new wordpressdbquerry($wpdb->prefix);
     }
 
     public function collectOrders(){
+        $orderids = $this->db->getOrderIDs();
 
-        try
-        {
-            $pdo = new PDO('mysql:host=localhost;dbname=shop', 'shop', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-
-        }
-        catch (PDOException $e)
-        {
-            echo 'Error: ' . $e->getMessage();
-            exit();
-        }
-
-        //$sql = 'SELECT * FROM bobnethu_woocommerce_tax_rates';
-        //$tax_rates = $pdo->prepare($sql);
-
-        $sql = 'SELECT DISTINCT order_id FROM bobnethu_woocommerce_order_items';
-        $orderids = $pdo->prepare($sql);
-        $orderids->execute();
-        while ($orderid = $orderids->fetch())
+	    foreach ($orderids as $orderid)
         {
             //order
             $order = new order();
-            $order->orderID = $orderid['order_id'];
+            $order->orderID = $orderid['orderID'];
 
-            $sql = 'SELECT order_item_id FROM bobnethu_woocommerce_order_items WHERE order_id = '.$order->orderID;
-            $orderitemids =  $pdo->prepare($sql);
-            $orderitemids->execute();
+            $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
 
             //order items
-            while ($orderitemid = $orderitemids->fetch())
+            foreach ($orderitemids as $orderitemid)
             {
                 $item = new item();
 
-                $sql = 'SELECT * FROM bobnethu_woocommerce_order_itemmeta WHERE order_item_id = '.$orderitemid['order_item_id'].' AND (meta_key in (\'_product_id\', \'_line_subtotal\', \'_line_subtotal_tax\'))';
-                $itemmeta = $pdo->prepare($sql);
-                $itemmeta->execute();
+                $itemmeta =  $this->db->getItemMetadata($orderitemid['order_item_id']);
 
-                while ($row = $itemmeta->fetch())
+                foreach ($itemmeta as $row)
                 {
                     switch ($row['meta_key']) {
                         case '_product_id':
@@ -68,24 +51,16 @@ class collector
 
                 }
 
-                $sql = 'SELECT post_title FROM bobnethu_posts WHERE ID = '.$item->itemID;
-                $itemname = $pdo->prepare($sql);
-                $itemname->execute();
-                $name = $itemname->fetch();
-                $item->name = $name['post_title'];
+                $itemname = $this->db->getItemName($item->itemID);
+                $item->name = $itemname['0']['post_title'];
                 $order->addItem($item);
             }
 
-            $sql = 'SELECT post_date FROM bobnethu_posts WHERE ID = '.$order->orderID;
-            $orderdate = $pdo->prepare($sql);
-            $orderdate->execute();
-            $date = $orderdate->fetch();
-            $order->date = $date['post_date'];
+            $orderdate = $this->db->getOrderDate($order->orderID);
+            $order->date = $orderdate['0']['post_date'];
 
             //customer, other
-            $sql = 'SELECT * FROM shop.bobnethu_postmeta WHERE post_id = '.$order->orderID;
-            $ordermeta = $pdo->prepare($sql);
-            $ordermeta->execute();
+            $ordermeta = $this->db->getOrderMetadata($order->orderID);
 
             //$address = new address();
             //$customer = new customer();
@@ -96,7 +71,7 @@ class collector
             $shipping_address = new address();
             $billing_address = new address();
 
-            while ($meta = $ordermeta->fetch())
+            foreach ($ordermeta as $meta)
             {
                 switch ($meta['meta_key']) {
                     case '_payment_method':
@@ -195,5 +170,11 @@ class collector
     {
         return $this->orders;
     }
+
+	public function setPostedOrdesStatus(){
+    	foreach ($this->orders as &$order){
+			$this->db->setPosted($order->orderID);
+	    }
+	}
 
 }
