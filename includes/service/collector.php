@@ -9,48 +9,29 @@
 class collector
 {
     private $orders = array();
+    private $db;
 
     public function __construct(){
-
+		$this->db = new pdoDB('localhost', '', 'shop', '', 'shop', 'utf8', 'mysql');
     }
 
     public function collectOrders(){
+        $orderids = $this->db->getOrderIDs();
 
-        try
-        {
-            $pdo = new PDO('mysql:host=localhost;dbname=shop', 'shop', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-
-        }
-        catch (PDOException $e)
-        {
-            echo 'Error: ' . $e->getMessage();
-            exit();
-        }
-
-        //$sql = 'SELECT * FROM bobnethu_woocommerce_tax_rates';
-        //$tax_rates = $pdo->prepare($sql);
-
-        $sql = 'SELECT DISTINCT order_id FROM bobnethu_woocommerce_order_items';
-        $orderids = $pdo->prepare($sql);
-        $orderids->execute();
         while ($orderid = $orderids->fetch())
         {
             //order
             $order = new order();
             $order->orderID = $orderid['order_id'];
 
-            $sql = 'SELECT order_item_id FROM bobnethu_woocommerce_order_items WHERE order_id = '.$order->orderID;
-            $orderitemids =  $pdo->prepare($sql);
-            $orderitemids->execute();
+            $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
 
             //order items
             while ($orderitemid = $orderitemids->fetch())
             {
                 $item = new item();
 
-                $sql = 'SELECT * FROM bobnethu_woocommerce_order_itemmeta WHERE order_item_id = '.$orderitemid['order_item_id'].' AND (meta_key in (\'_product_id\', \'_line_subtotal\', \'_line_subtotal_tax\'))';
-                $itemmeta = $pdo->prepare($sql);
-                $itemmeta->execute();
+                $itemmeta =  $this->db->getItemMetadata($orderitemid['order_item_id']);
 
                 while ($row = $itemmeta->fetch())
                 {
@@ -68,24 +49,19 @@ class collector
 
                 }
 
-                $sql = 'SELECT post_title FROM bobnethu_posts WHERE ID = '.$item->itemID;
-                $itemname = $pdo->prepare($sql);
-                $itemname->execute();
+                $itemname = $this->db->getItemName($item->itemID);
                 $name = $itemname->fetch();
                 $item->name = $name['post_title'];
                 $order->addItem($item);
             }
 
-            $sql = 'SELECT post_date FROM bobnethu_posts WHERE ID = '.$order->orderID;
-            $orderdate = $pdo->prepare($sql);
-            $orderdate->execute();
+            $orderdate = $this->db->getOrderDate($order->orderID);
+
             $date = $orderdate->fetch();
             $order->date = $date['post_date'];
 
             //customer, other
-            $sql = 'SELECT * FROM shop.bobnethu_postmeta WHERE post_id = '.$order->orderID;
-            $ordermeta = $pdo->prepare($sql);
-            $ordermeta->execute();
+            $ordermeta = $this->db->getOrderMetadata($order->orderID);
 
             //$address = new address();
             //$customer = new customer();

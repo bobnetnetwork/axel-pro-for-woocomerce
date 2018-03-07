@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: bobes
+ * User: Bobesz
  * Date: 3/7/2018
  * Time: 12:05 PM
  */
 
-class pdo extends db{
+class pdoDB extends db{
 	private $pdo, $dbengine;
 
 	public function __construct($host, $port, $user, $pwd, $dbname, $charset, $dbengine) {
