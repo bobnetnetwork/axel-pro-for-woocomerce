@@ -29,7 +29,7 @@ class axel_pro_settings
 	}
 
 	public function menu() {
-		$this->options_page_hook_bnn = add_menu_page(
+		/*$this->options_page_hook_bnn = add_menu_page(
 			__( 'BobNET Network', 'axel-pro-for-woocommerce' ),
 			__( 'BobNET Network', 'axel-pro-for-woocommerce' ),
 			'manage_bobnet',
@@ -45,7 +45,7 @@ class axel_pro_settings
 			'manage_woocommerce',
 			'wpo_axel_pro_options_page',
 			array( $this, 'settings_page' )
-		);
+		);*/
 	}
 
 	/**
