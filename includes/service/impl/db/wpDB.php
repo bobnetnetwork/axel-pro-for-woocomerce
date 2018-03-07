@@ -6,7 +6,7 @@
  * Time: 11:29 AM
  */
 
-class wpdb extends db{
+class wordpressdbquerry extends db{
 
 	public function openConnection() {
 
@@ -17,6 +17,8 @@ class wpdb extends db{
 	}
 
 	public function query( $sql ) {
-		return $wpdb->get_results($sql);
+		global $wpdb;
+
+		return $wpdb->get_results($sql, ARRAY_A);
 	}
 }

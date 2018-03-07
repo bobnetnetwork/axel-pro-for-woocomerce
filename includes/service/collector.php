@@ -8,17 +8,19 @@
 
 class collector
 {
-    private $orders = array();
+	private $orders = array();
     private $db;
 
     public function __construct(){
-		$this->db = new pdoDB('localhost', '', 'shop', '', 'shop', 'utf8', 'mysql');
+		//$this->db = new pdoDB('localhost', '', 'shop', 'xc22DM93JN', 'shop', 'utf8', 'mysql');
+	    global $wpdb;
+	    $this->db = new wordpressdbquerry($wpdb->prefix);
     }
 
     public function collectOrders(){
         $orderids = $this->db->getOrderIDs();
 
-        while ($orderid = $orderids->fetch())
+	    foreach ($orderids as $orderid)
         {
             //order
             $order = new order();
@@ -27,13 +29,13 @@ class collector
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
 
             //order items
-            while ($orderitemid = $orderitemids->fetch())
+            foreach ($orderitemids as $orderitemid)
             {
                 $item = new item();
 
                 $itemmeta =  $this->db->getItemMetadata($orderitemid['order_item_id']);
 
-                while ($row = $itemmeta->fetch())
+                foreach ($itemmeta as $row)
                 {
                     switch ($row['meta_key']) {
                         case '_product_id':
@@ -50,15 +52,12 @@ class collector
                 }
 
                 $itemname = $this->db->getItemName($item->itemID);
-                $name = $itemname->fetch();
-                $item->name = $name['post_title'];
+                $item->name = $itemname['0']['post_title'];
                 $order->addItem($item);
             }
 
             $orderdate = $this->db->getOrderDate($order->orderID);
-
-            $date = $orderdate->fetch();
-            $order->date = $date['post_date'];
+            $order->date = $orderdate['0']['post_date'];
 
             //customer, other
             $ordermeta = $this->db->getOrderMetadata($order->orderID);
@@ -72,7 +71,7 @@ class collector
             $shipping_address = new address();
             $billing_address = new address();
 
-            while ($meta = $ordermeta->fetch())
+            foreach ($ordermeta as $meta)
             {
                 switch ($meta['meta_key']) {
                     case '_payment_method':

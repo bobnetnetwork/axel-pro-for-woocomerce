@@ -9,14 +9,15 @@
 class pdoDB extends db{
 	private $pdo, $dbengine;
 
-	public function __construct($host, $port, $user, $pwd, $dbname, $charset, $dbengine) {
-		parent::__construct($host, $port, $user, $pwd, $dbname, $charset);
+	public function __construct($host, $port, $user, $pwd, $dbname, $charset, $dbengine, $prefix) {
+		parent::__construct($host, $port, $user, $pwd, $dbname, $charset, $prefix);
 		$this->dbengine = $dbengine;
 	}
 
 	public function openConnection() {
 		try
 		{
+
 			$this->pdo = new PDO($this->dbengine.':host='.$this->host.';dbname='.$this->dbname, $this->username, $this->pwd, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES ".$this->charset));
 
 		}
@@ -28,7 +29,9 @@ class pdoDB extends db{
 	}
 
 	public function query($sql) {
-		$query = $this->pdo->prepare($sql);
+		$pd = new PDO($this->dbengine.':host='.$this->host.';dbname='.$this->dbname, $this->user, $this->pwd, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES ".$this->charset));
+
+		$query = $pd->prepare($sql);
 		$query->execute();
 		return $query;
 	}
