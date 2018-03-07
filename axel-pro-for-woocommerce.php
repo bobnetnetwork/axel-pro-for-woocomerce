@@ -42,6 +42,7 @@ function my_custom_rss() {
 	$axel = new axelProXML($col->getOrders());
 	$axel->generateXML();
 	print ($axel->getXML());
+	$col->setPostedOrdesStatus();
 }
 
 function axel_pro_create_table() {
@@ -52,12 +53,14 @@ function axel_pro_create_table() {
 	// create the ECPT metabox database table
 	if($wpdb->get_var("show tables like '$wpdb->axel_pro_table_name'") != $wpdb->axel_pro_table_name)
 	{
+
 		$sql = "CREATE TABLE " . $wpdb->axel_pro_table_name . " (
-		`id` mediumint(9) NOT NULL AUTO_INCREMENT,
-		`orderID` int NOT NULL,
-		`feldolgozva` boolean NOT NULL,
-		UNIQUE KEY id (id)
-		);";
+		`id` INT NOT NULL AUTO_INCREMENT,
+		`orderID` INT NOT NULL,
+		`posted` TINYINT NOT NULL,
+		PRIMARY KEY (`orderID`),
+		INDEX `id` (`id` ASC));
+		";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
@@ -70,7 +73,7 @@ function axel_pro_woocommerce_payment_complete( $order_id ) {
 	global $wpdb;
 	$wpdb->insert($wpdb->prefix . 'axel_pro', array(
 		'orderID' => $order_id,
-		'feldolgozva' => 0,
+		'posted' => 0,
 	));
 }
 add_action( 'woocommerce_order_status_completed', 'axel_pro_woocommerce_payment_complete', 10, 1 );
