@@ -8,7 +8,7 @@
 
 class axelProXML
 {
-    private $orders;
+    private $orders, $xml;
 
     public function __construct($orders){
         $this->orders = $orders;
@@ -16,14 +16,12 @@ class axelProXML
 
     public function generateXML()
     {
-        header("Content-type: text/xml; charset=utf-8");
-
         $AXELPRO_IMP_TRANS = new SimpleXMLElement('<AXELPRO_IMP_TRANS/>');// VERSION="1.1"
         $AXELPRO_IMP_TRANS->addAttribute('VERSION', '1.1');
 
         foreach ($this->orders as &$order) {
-            $TRANS = $AXELPRO_IMP_TRANS->addChild(TRANS);
-            $TRANS_HEAD = $TRANS->addChild(TRANS_HEAD);
+            $TRANS = $AXELPRO_IMP_TRANS->addChild('TRANS');
+            $TRANS_HEAD = $TRANS->addChild('TRANS_HEAD');
             $IMG_TYPE = $TRANS_HEAD->addChild('IMG_TYPE', 3);
             $IMG_DATETIME = $TRANS_HEAD->addChild('IMG_DATETIME', $order->date);
             $IMG_FULFILMENT_DATE = $TRANS_HEAD->addChild('IMG_FULFILMENT_DATE', $order->date);
@@ -50,7 +48,7 @@ class axelProXML
             $IMG_ENVELOPE = $TRANS_HEAD->addChild('IMG_ENVELOPE', 0);
             $IMG_COMPANY_PLUS = $TRANS_HEAD->addChild('IMG_COMPANY_PLUS', 1);
 
-            $TRANS_ITEMS = $TRANS->addChild(TRANS_ITEMS);
+            $TRANS_ITEMS = $TRANS->addChild('TRANS_ITEMS');
 
             $items = $order->items;
             $i = 1;
@@ -64,13 +62,18 @@ class axelProXML
                 $ITM_PRICE_VAT_SHORT = $TRANS_ITEM->addChild('ITM_PRICE_VAT_SHORT', 27);
                 $ITM_DATETIME = $TRANS_ITEM->addChild('ITM_DATETIME', $order->date);
                 $ITM_AMOUNT = $TRANS_ITEM->addChild('ITM_AMOUNT', 1);
-                $ITM_UNIT = $TRANS_ITEM->addChild('ITM_UNIT', db);
+                $ITM_UNIT = $TRANS_ITEM->addChild('ITM_UNIT', 'db');
                 $ITM_VTSZSZJ = $TRANS_ITEM->addChild('ITM_VTSZSZJ');
                 $ITM_ORD = $TRANS_ITEM->addChild('ITM_ORD', $i);
                 $ITM_COMMENT = $TRANS_ITEM->addChild('ITM_COMMENT');
                 ++$i;
             }
         }
-        print($AXELPRO_IMP_TRANS->asXML());
+        //print($AXELPRO_IMP_TRANS->asXML());
+	    $this->xml = $AXELPRO_IMP_TRANS->asXML();
+    }
+
+    public function getXML(){
+		return $this->xml;
     }
 }

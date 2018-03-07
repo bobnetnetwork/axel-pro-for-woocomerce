@@ -24,7 +24,7 @@ class collector
         {
             //order
             $order = new order();
-            $order->orderID = $orderid['order_id'];
+            $order->orderID = $orderid['orderID'];
 
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
 
@@ -170,5 +170,11 @@ class collector
     {
         return $this->orders;
     }
+
+	public function setPostedOrdesStatus(){
+    	foreach ($this->orders as &$order){
+			$this->db->setPosted($order->orderID);
+	    }
+	}
 
 }

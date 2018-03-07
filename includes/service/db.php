@@ -24,7 +24,7 @@ abstract class db  {
 	public abstract function query($sql);
 
 	public function getOrderIDs(){
-		return $this->query('SELECT DISTINCT order_id FROM '.$this->prefix.'woocommerce_order_items');
+		return $this->query('SELECT orderID FROM '.$this->prefix.'axel_pro WHERE posted = 0');
 	}
 
 	public function getOrderItemIDs($orderID){
@@ -45,5 +45,9 @@ abstract class db  {
 
 	public function getOrderMetadata($orderID){
 		return $this->query('SELECT * FROM '.$this->prefix.'postmeta WHERE post_id = '.$orderID);
+	}
+
+	public function setPosted($orderID){
+		return $this->query('UPDATE  '.$this->prefix.'axel_pro SET posted = 1 WHERE orderID like '. $orderID);
 	}
 }
