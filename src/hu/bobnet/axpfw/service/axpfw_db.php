@@ -60,5 +60,3 @@ abstract class axpfw_db  {
 	}
 }
 endif; // class_exists
-
-return new axpfw_db();

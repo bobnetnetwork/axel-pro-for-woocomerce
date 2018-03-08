@@ -8,13 +8,15 @@
 
 namespace HU\BOBNET\AXPFW\SERVICE\IMPL\DB;
 
+use  HU\BOBNET\AXPFW\SERVICE;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
 if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\IMPL\\DB\\axpfw_wpDB' ) ) :
 
-class axpfw_wpDB extends axpfw_db{
+class axpfw_wpDB extends SERVICE\axpfw_db{
 
 	public function openConnection() {
 
@@ -31,5 +33,3 @@ class axpfw_wpDB extends axpfw_db{
 	}
 }
 endif; // class_exists
-
-return new axpfw_wpDB();

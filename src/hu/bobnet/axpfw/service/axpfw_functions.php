@@ -8,6 +8,8 @@
 
 namespace HU\BOBNET\AXPFW\SERVICE;
 
+use HU\BOBNET\AXPFW\SERVICE;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -22,12 +24,12 @@ class axpfw_functions {
 	}
 
 	/* Add the feed. */
-	function my_custom_rss_init(){
+	static function my_custom_rss_init(){
 		add_feed('axelpro', 'my_custom_rss');
 	}
 
 	/* Filter the type, this hook wil set the correct HTTP header for Content-type. */
-	function my_custom_rss_content_type( $content_type, $type ) {
+	static function my_custom_rss_content_type( $content_type, $type ) {
 		if ( 'my_custom_feed' === $type ) {
 			return feed_content_type( 'rss2' );
 		}
@@ -37,10 +39,10 @@ class axpfw_functions {
 	/* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
 	function my_custom_rss() {
 		header("Content-Type: application/xml; charset=utf-8");
-		$col = new collector();
+		$col = new SERVICE\collector();
 		$col->collectOrders();
 
-		$axel = new axelProXML($col->getOrders());
+		$axel = new SERVICE\axelProXML($col->getOrders());
 		$axel->generateXML();
 		print ($axel->getXML());
 		$col->setPostedOrdesStatus();
@@ -48,5 +50,3 @@ class axpfw_functions {
 
 }
 endif; // class_exists
-
-return new axpfw_functions();

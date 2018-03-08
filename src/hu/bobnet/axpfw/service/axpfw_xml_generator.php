@@ -86,5 +86,3 @@ class axpfw_xml_generator
     }
 }
 endif; // class_exists
-
-return new axpfw_generator();

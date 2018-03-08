@@ -8,13 +8,15 @@
 
 namespace HU\BOBNET\AXPFW\SERVICE\IMPL\DB;
 
+use  HU\BOBNET\AXPFW\SERVICE;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
 if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\IMPL\\DB\\axpfw_pdoDB' ) ) :
 
-class axpfw_pdoDB extends axpfw_db{
+class axpfw_pdoDB extends SERVICE\axpfw_db{
 	private $pdo, $dbengine;
 
 	public function __construct($host, $port, $user, $pwd, $dbname, $charset, $dbengine, $prefix) {
@@ -49,5 +51,3 @@ class axpfw_pdoDB extends axpfw_db{
 	}
 }
 endif; // class_exists
-
-return new axpfw_pdoDB();

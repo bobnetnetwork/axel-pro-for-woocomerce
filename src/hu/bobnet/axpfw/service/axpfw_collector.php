@@ -8,6 +8,9 @@
 
 namespace HU\BOBNET\AXPFW\SERVICE;
 
+use HU\BOBNET\AXPFW\DAO;
+use  HU\BOBNET\AXPFW\SERVICE\IMPL\DB;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -20,9 +23,8 @@ class axpfw_collector
     private $db;
 
     public function __construct(){
-		//$this->db = new pdoDB('localhost', '', 'shop', '', 'shop', 'utf8', 'mysql');
 	    global $wpdb;
-	    $this->db = new axpfw_wpDB($wpdb->prefix);
+	    $this->db = new DB\axpfw_wpDB($wpdb->prefix);
     }
 
     public function collectOrders(){
@@ -31,7 +33,7 @@ class axpfw_collector
 	    foreach ($orderids as $orderid)
         {
             //order
-            $order = new axpfw_order();
+            $order = new DAO\axpfw_order();
             $order->orderID = $orderid['orderID'];
 
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
@@ -39,7 +41,7 @@ class axpfw_collector
             //order items
             foreach ($orderitemids as $orderitemid)
             {
-                $item = new axpfw_item();
+                $item = new DAO\axpfw_item();
 
                 $itemmeta =  $this->db->getItemMetadata($orderitemid['order_item_id']);
 
@@ -70,14 +72,11 @@ class axpfw_collector
             //customer, other
             $ordermeta = $this->db->getOrderMetadata($order->orderID);
 
-            //$address = new address();
-            //$customer = new customer();
+            $shipping_customer = new DAO\axpfw_customer();
+            $billing_customer = new DAO\axpfw_customer();
 
-            $shipping_customer = new axpfw_customer();
-            $billing_customer = new axpfw_customer();
-
-            $shipping_address = new axpfw_address();
-            $billing_address = new axpfw_address();
+            $shipping_address = new DAO\axpfw_address();
+            $billing_address = new DAO\axpfw_address();
 
             foreach ($ordermeta as $meta)
             {

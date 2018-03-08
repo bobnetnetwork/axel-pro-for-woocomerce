@@ -19,6 +19,7 @@ Domain Path:  /languages
  * Time: 8:03 PM
  */
 
+use  HU\BOBNET\AXPFW\SERVICE;
 
 function axel_pro_create_table() {
 	global $wpdb;
@@ -83,8 +84,6 @@ class axel_pro_for_woocommerce
      * Constructor
      */
     public function __construct() {
-        $f = new functions();
-
     	$this->plugin_basename = plugin_basename(__FILE__);
 
         $this->define( 'WPO_AXELPRO_VERSION', $this->version );
@@ -95,7 +94,7 @@ class axel_pro_for_woocommerce
         add_action( 'plugins_loaded', array( $this, 'load_classes' ), 9 );
         add_action( 'in_plugin_update_message-'.$this->plugin_basename, array( $this, 'in_plugin_update_message' ) );
 
-	    $f = new functions();
+
     }
 
     /**
@@ -196,18 +195,18 @@ class axel_pro_for_woocommerce
      */
     public function includes() {
         // Plugin classes
-        include_once( $this->plugin_path() . '/includes/dao/axpfw_address.php' );
-        include_once( $this->plugin_path() . '/includes/dao/axpfw_customer.php' );
-        include_once( $this->plugin_path() . '/includes/dao/axpfw_item.php' );
-        include_once( $this->plugin_path() . '/includes/dao/axpfw_order.php' );
-        $this->settings = include_once( $this->plugin_path() . '/includes/service/axpfw_settings.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_address.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_customer.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_item.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_order.php' );
+        $this->settings = include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_settings.php' );
         //$this->main = include_once( $this->plugin_path() . '/includes/axel_pro_main.php' );
-        include_once( $this->plugin_path() . '/includes/service/axpfw_collector.php' );
-	    include_once( $this->plugin_path() . '/includes/service/axpfw_db.php' );
-	    include_once( $this->plugin_path() . '/includes/service/axpfw_functions.php' );
-        include_once( $this->plugin_path() . '/includes/service/axel-pro/axpfw_xml_generator.php' );
-	    include_once( $this->plugin_path() . '/includes/service/impl/db/axpfw_pdoDB.php' );
-	    include_once( $this->plugin_path() . '/includes/service/impl/db/axpfw_wpDB.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_db.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_functions.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_xml_generator.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/impl/db/axpfw_pdoDB.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/impl/db/axpfw_wpDB.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_collector.php' );
     }
 
     /**
@@ -226,6 +225,8 @@ class axel_pro_for_woocommerce
 
         // all systems ready - GO!
         $this->includes();
+
+	    $f = new SERVICE\axpfw_functions();
     }
 
     /**
@@ -359,12 +360,6 @@ class axel_pro_for_woocommerce
 }
 endif; // class_exists
 
-/**
- * Returns the main instance of WooCommerce PDF Invoices & Packing Slips to prevent the need to use globals.
- *
- * @since  1.6
- * @return WPO_WCPDF
- */
 function axel_pro_for_woocommerce() {
     return axel_pro_for_woocommerce::instance();
 }
