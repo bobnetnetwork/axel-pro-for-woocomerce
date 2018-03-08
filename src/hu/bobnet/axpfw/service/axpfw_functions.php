@@ -19,8 +19,8 @@ if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_functions' ) ) :
 class axpfw_functions {
 
 	public function __construct() {
-		add_action('init', array(__CLASS__,'my_custom_rss_init'));
-		add_filter( 'feed_content_type', array(__CLASS__, 'my_custom_rss_content_type'), 10, 2);
+		add_action('init', array( $this,'my_custom_rss_init'));
+		add_filter( 'feed_content_type', array($this, 'my_custom_rss_content_type'), 10, 2);
 	}
 
 	/* Add the feed. */

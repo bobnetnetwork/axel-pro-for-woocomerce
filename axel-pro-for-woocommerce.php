@@ -21,6 +21,35 @@ Domain Path:  /languages
 
 use  HU\BOBNET\AXPFW\SERVICE;
 
+add_action('init', 'my_custom_rss_init');
+add_filter( 'feed_content_type', 'my_custom_rss_content_type', 10, 2);
+
+
+/* Add the feed. */
+function my_custom_rss_init(){
+	add_feed('axelpro', 'my_custom_rss');
+}
+
+/* Filter the type, this hook wil set the correct HTTP header for Content-type. */
+function my_custom_rss_content_type( $content_type, $type ) {
+	if ( 'my_custom_feed' === $type ) {
+		return feed_content_type( 'rss2' );
+	}
+	return $content_type;
+}
+
+/* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
+function my_custom_rss() {
+	header("Content-Type: application/xml; charset=utf-8");
+	$col = new SERVICE\collector();
+	$col->collectOrders();
+
+	$axel = new SERVICE\axelProXML($col->getOrders());
+	$axel->generateXML();
+	print ($axel->getXML());
+	$col->setPostedOrdesStatus();
+}
+
 function axel_pro_create_table() {
 	global $wpdb;
 	global $axel_pro_db_name;
@@ -202,11 +231,12 @@ class axel_pro_for_woocommerce
         $this->settings = include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_settings.php' );
         //$this->main = include_once( $this->plugin_path() . '/includes/axel_pro_main.php' );
 	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_db.php' );
-	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_functions.php' );
         include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_xml_generator.php' );
 	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/impl/db/axpfw_pdoDB.php' );
 	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/impl/db/axpfw_wpDB.php' );
 	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_collector.php' );
+
+	    $this->functions = include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_functions.php' );
     }
 
     /**
@@ -225,8 +255,6 @@ class axel_pro_for_woocommerce
 
         // all systems ready - GO!
         $this->includes();
-
-	    $f = new SERVICE\axpfw_functions();
     }
 
     /**
