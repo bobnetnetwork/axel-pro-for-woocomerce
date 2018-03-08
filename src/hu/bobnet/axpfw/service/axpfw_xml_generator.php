@@ -6,7 +6,15 @@
  * Time: 1:29 AM
  */
 
-class axelProXML
+namespace HU\BOBNET\AXPFW\SERVICE;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_xml_generator' ) ) :
+
+class axpfw_xml_generator
 {
     private $orders, $xml;
 
@@ -77,3 +85,6 @@ class axelProXML
 		return $this->xml;
     }
 }
+endif; // class_exists
+
+return new axpfw_generator();

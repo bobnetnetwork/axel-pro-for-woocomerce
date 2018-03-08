@@ -6,15 +6,23 @@
  * Time: 1:35 AM
  */
 
-class collector
+namespace HU\BOBNET\AXPFW\SERVICE;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_collector' ) ) :
+
+class axpfw_collector
 {
 	private $orders = array();
     private $db;
 
     public function __construct(){
-		//$this->db = new pdoDB('localhost', '', 'shop', 'xc22DM93JN', 'shop', 'utf8', 'mysql');
+		//$this->db = new pdoDB('localhost', '', 'shop', '', 'shop', 'utf8', 'mysql');
 	    global $wpdb;
-	    $this->db = new wordpressdbquerry($wpdb->prefix);
+	    $this->db = new axpfw_wpDB($wpdb->prefix);
     }
 
     public function collectOrders(){
@@ -23,7 +31,7 @@ class collector
 	    foreach ($orderids as $orderid)
         {
             //order
-            $order = new order();
+            $order = new axpfw_order();
             $order->orderID = $orderid['orderID'];
 
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
@@ -31,7 +39,7 @@ class collector
             //order items
             foreach ($orderitemids as $orderitemid)
             {
-                $item = new item();
+                $item = new axpfw_item();
 
                 $itemmeta =  $this->db->getItemMetadata($orderitemid['order_item_id']);
 
@@ -65,11 +73,11 @@ class collector
             //$address = new address();
             //$customer = new customer();
 
-            $shipping_customer = new customer();
-            $billing_customer = new customer();
+            $shipping_customer = new axpfw_customer();
+            $billing_customer = new axpfw_customer();
 
-            $shipping_address = new address();
-            $billing_address = new address();
+            $shipping_address = new axpfw_address();
+            $billing_address = new axpfw_address();
 
             foreach ($ordermeta as $meta)
             {
@@ -178,3 +186,6 @@ class collector
 	}
 
 }
+endif; // class_exists
+
+return new axpfw_collector();

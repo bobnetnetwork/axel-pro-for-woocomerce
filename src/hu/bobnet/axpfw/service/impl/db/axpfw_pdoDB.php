@@ -6,7 +6,15 @@
  * Time: 12:05 PM
  */
 
-class pdoDB extends db{
+namespace HU\BOBNET\AXPFW\SERVICE\IMPL\DB;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\IMPL\\DB\\axpfw_pdoDB' ) ) :
+
+class axpfw_pdoDB extends axpfw_db{
 	private $pdo, $dbengine;
 
 	public function __construct($host, $port, $user, $pwd, $dbname, $charset, $dbengine, $prefix) {
@@ -40,3 +48,6 @@ class pdoDB extends db{
 		$pdo = null;
 	}
 }
+endif; // class_exists
+
+return new axpfw_pdoDB();

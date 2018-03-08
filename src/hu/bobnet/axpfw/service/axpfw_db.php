@@ -6,7 +6,15 @@
  * Time: 11:29 AM
  */
 
-abstract class db  {
+namespace HU\BOBNET\AXPFW\SERVICE;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_db' ) ) :
+
+abstract class axpfw_db  {
 	protected $host, $port, $user, $pwd, $dbname, $charset, $prefix;
 
 	public function __construct($prefix, $host='', $port='', $user='', $pwd='', $dbname='', $charset='') {
@@ -51,3 +59,6 @@ abstract class db  {
 		return $this->query('UPDATE  '.$this->prefix.'axel_pro SET posted = 1 WHERE orderID like '. $orderID);
 	}
 }
+endif; // class_exists
+
+return new axpfw_db();

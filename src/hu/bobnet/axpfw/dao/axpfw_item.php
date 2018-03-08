@@ -6,7 +6,15 @@
  * Time: 9:14 PM
  */
 
-class item
+namespace HU\BOBNET\AXPFW\DAO;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_item' ) ) :
+
+class axpfw_item
 {
     private $itemID, $tax, $value, $name;
 
@@ -28,3 +36,6 @@ class item
         return $this;
     }
 }
+endif; // class_exists
+
+return new axpfw_item();

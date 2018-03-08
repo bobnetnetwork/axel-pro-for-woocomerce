@@ -6,17 +6,15 @@
  * Time: 12:52 PM
  */
 
-namespace WPO\WC\AXEL_PRO;
-
-//use WPO\WC\PDF_Invoices\Documents\Sequential_Number_Store;
+namespace HU\BOBNET\AXPFW\SERVICE;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\WPO\\WC\\AXEL_PRO\\axel_pro_settings' ) ) :
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_settings' ) ) :
 
-class axel_pro_settings
+class axpfw_settings
 {
 	public $options_page_hook_bnn, $options_page_hook;
 
@@ -93,4 +91,4 @@ class axel_pro_settings
 }
 endif; // class_exists
 
-return new axel_pro_settings();
+return new axpfw_settings();

@@ -6,7 +6,15 @@
  * Time: 9:14 PM
  */
 
-class order
+namespace HU\BOBNET\AXPFW\DAO;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_order' ) ) :
+
+class axpfw_order
 {
     private $orderID, $billing_customer, $shipping_customer, $date, $payment_method, $value, $tax, $currency;
     private $items = array();
@@ -32,3 +40,6 @@ class order
         return $this;
     }
 }
+endif; // class_exists
+
+return new axpfw_order();

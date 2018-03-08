@@ -19,31 +19,6 @@ Domain Path:  /languages
  * Time: 8:03 PM
  */
 
-/* Add the feed. */
-function my_custom_rss_init(){
-	add_feed('axelpro', 'my_custom_rss');
-}
-add_action('init', 'my_custom_rss_init');
-/* Filter the type, this hook wil set the correct HTTP header for Content-type. */
-function my_custom_rss_content_type( $content_type, $type ) {
-	if ( 'my_custom_feed' === $type ) {
-		return feed_content_type( 'rss2' );
-	}
-	return $content_type;
-}
-add_filter( 'feed_content_type', 'my_custom_rss_content_type', 10, 2 );
-
-/* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
-function my_custom_rss() {
-	header("Content-Type: application/xml; charset=utf-8");
-	$col = new collector();
-	$col->collectOrders();
-
-	$axel = new axelProXML($col->getOrders());
-	$axel->generateXML();
-	print ($axel->getXML());
-	$col->setPostedOrdesStatus();
-}
 
 function axel_pro_create_table() {
 	global $wpdb;
@@ -78,15 +53,6 @@ function axel_pro_woocommerce_payment_complete( $order_id ) {
 }
 add_action( 'woocommerce_order_status_completed', 'axel_pro_woocommerce_payment_complete', 10, 1 );
 
-add_action( 'init', 'my_rewrite' );
-function my_rewrite() {
-	global $wp_rewrite;
-
-	add_rewrite_rule('axelpro/?$', 'wp-login.php', 'top');
-	$wp_rewrite->flush_rules(true);  // This should really be done in a plugin activation
-}
-
-
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
@@ -117,7 +83,9 @@ class axel_pro_for_woocommerce
      * Constructor
      */
     public function __construct() {
-        $this->plugin_basename = plugin_basename(__FILE__);
+        $f = new functions();
+
+    	$this->plugin_basename = plugin_basename(__FILE__);
 
         $this->define( 'WPO_AXELPRO_VERSION', $this->version );
 
@@ -126,6 +94,8 @@ class axel_pro_for_woocommerce
         add_filter( 'load_textdomain_mofile', array( $this, 'textdomain_fallback' ), 10, 2 );
         add_action( 'plugins_loaded', array( $this, 'load_classes' ), 9 );
         add_action( 'in_plugin_update_message-'.$this->plugin_basename, array( $this, 'in_plugin_update_message' ) );
+
+	    $f = new functions();
     }
 
     /**
@@ -226,17 +196,18 @@ class axel_pro_for_woocommerce
      */
     public function includes() {
         // Plugin classes
-        include_once( $this->plugin_path() . '/includes/dao/address.php' );
-        include_once( $this->plugin_path() . '/includes/dao/customer.php' );
-        include_once( $this->plugin_path() . '/includes/dao/item.php' );
-        include_once( $this->plugin_path() . '/includes/dao/order.php' );
-        $this->settings = include_once( $this->plugin_path() . '/includes/service/axel_pro_settings.php' );
+        include_once( $this->plugin_path() . '/includes/dao/axpfw_address.php' );
+        include_once( $this->plugin_path() . '/includes/dao/axpfw_customer.php' );
+        include_once( $this->plugin_path() . '/includes/dao/axpfw_item.php' );
+        include_once( $this->plugin_path() . '/includes/dao/axpfw_order.php' );
+        $this->settings = include_once( $this->plugin_path() . '/includes/service/axpfw_settings.php' );
         //$this->main = include_once( $this->plugin_path() . '/includes/axel_pro_main.php' );
-        include_once( $this->plugin_path() . '/includes/service/collector.php' );
-	    include_once( $this->plugin_path() . '/includes/service/db.php' );
-        include_once( $this->plugin_path() . '/includes/service/axel-pro/axelProXML.php' );
-	    include_once( $this->plugin_path() . '/includes/service/impl/db/pdoDB.php' );
-	    include_once( $this->plugin_path() . '/includes/service/impl/db/wpDB.php' );
+        include_once( $this->plugin_path() . '/includes/service/axpfw_collector.php' );
+	    include_once( $this->plugin_path() . '/includes/service/axpfw_db.php' );
+	    include_once( $this->plugin_path() . '/includes/service/axpfw_functions.php' );
+        include_once( $this->plugin_path() . '/includes/service/axel-pro/axpfw_xml_generator.php' );
+	    include_once( $this->plugin_path() . '/includes/service/impl/db/axpfw_pdoDB.php' );
+	    include_once( $this->plugin_path() . '/includes/service/impl/db/axpfw_wpDB.php' );
     }
 
     /**

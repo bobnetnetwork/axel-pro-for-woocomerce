@@ -6,9 +6,17 @@
  * Time: 9:30 PM
  */
 
-class address
+namespace HU\BOBNET\AXPFW\DAO;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_customer' ) ) :
+
+class axpfw_customer
 {
-    private $postcode, $country, $address1, $address2, $city, $state;
+    private $company, $firstname, $lastname, $phone, $email, $address;
 
     public function __construct(){
 
@@ -28,3 +36,6 @@ class address
         return $this;
     }
 }
+endif; // class_exists
+
+return new axpfw_customer();
