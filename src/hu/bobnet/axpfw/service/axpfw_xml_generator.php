@@ -24,7 +24,7 @@ class axpfw_xml_generator
 
     public function generateXML()
     {
-        $AXELPRO_IMP_TRANS = new SimpleXMLElement('<AXELPRO_IMP_TRANS/>');// VERSION="1.1"
+        $AXELPRO_IMP_TRANS = new \SimpleXMLElement('<AXELPRO_IMP_TRANS/>');// VERSION="1.1"
         $AXELPRO_IMP_TRANS->addAttribute('VERSION', '1.1');
 
         foreach ($this->orders as &$order) {

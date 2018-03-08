@@ -41,10 +41,10 @@ function my_custom_rss_content_type( $content_type, $type ) {
 /* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
 function my_custom_rss() {
 	header("Content-Type: application/xml; charset=utf-8");
-	$col = new SERVICE\collector();
+	$col = new SERVICE\axpfw_collector();
 	$col->collectOrders();
 
-	$axel = new SERVICE\axelProXML($col->getOrders());
+	$axel = new SERVICE\axpfw_xml_generator($col->getOrders());
 	$axel->generateXML();
 	print ($axel->getXML());
 	$col->setPostedOrdesStatus();

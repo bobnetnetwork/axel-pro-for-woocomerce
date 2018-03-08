@@ -26,25 +26,25 @@ class axpfw_settings
 		// Links on plugin page
 		add_filter( 'plugin_action_links_'.axel_pro_for_woocommerce()->plugin_basename, array( $this, 'add_settings_link' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'add_support_links' ), 10, 2 );
-		add_action('init', array( $this,'my_custom_rss_init'));
-		add_filter( 'feed_content_type', array($this, 'my_custom_rss_content_type'), 10, 2);
+		//add_action('init', array( $this,'my_custom_rss_init'));
+		//add_filter( 'feed_content_type', array($this, 'my_custom_rss_content_type'), 10, 2);
 	}
 
 	/* Add the feed. */
-	static function my_custom_rss_init(){
+	/*static function my_custom_rss_init(){
 		add_feed('axelpro', 'my_custom_rss');
 	}
-
+*/
 	/* Filter the type, this hook wil set the correct HTTP header for Content-type. */
-	static function my_custom_rss_content_type( $content_type, $type ) {
+/*	static function my_custom_rss_content_type( $content_type, $type ) {
 		if ( 'my_custom_feed' === $type ) {
 			return feed_content_type( 'rss2' );
 		}
 		return $content_type;
 	}
-
+*/
 	/* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
-	function my_custom_rss() {
+/*	function my_custom_rss() {
 		header("Content-Type: application/xml; charset=utf-8");
 		$col = new SERVICE\collector();
 		$col->collectOrders();
@@ -54,7 +54,7 @@ class axpfw_settings
 		print ($axel->getXML());
 		$col->setPostedOrdesStatus();
 	}
-
+*/
 
 	public function menu() {
 		/*$this->options_page_hook_bnn = add_menu_page(
