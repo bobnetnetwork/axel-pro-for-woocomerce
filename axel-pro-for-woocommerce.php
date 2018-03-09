@@ -3,7 +3,7 @@
 Plugin Name:  Axel Pro for Woocommerce WordPress
 Plugin URI:   https://bobnet.hu/download/axel-pro-for-woocommerce/
 Description:  Axel Por plugin for Woocommerce Wordpress
-Version:      20180228
+Version:      1.0.0
 Author:       Bobesz
 Author URI:   https://bobnet.hu/
 License:      GPLv3
@@ -19,27 +19,32 @@ Domain Path:  /languages
  * Time: 8:03 PM
  */
 
+use  HU\BOBNET\AXPFW\SERVICE;
+
+add_action('init', 'axpfw_xml_init');
+add_filter( 'feed_content_type', 'axpfw_xml_content_type', 10, 2);
+
+
 /* Add the feed. */
-function my_custom_rss_init(){
-	add_feed('axelpro', 'my_custom_rss');
+function axpfw_xml_init(){
+	add_feed('axelpro', 'axpfw_xml');
 }
-add_action('init', 'my_custom_rss_init');
+
 /* Filter the type, this hook wil set the correct HTTP header for Content-type. */
-function my_custom_rss_content_type( $content_type, $type ) {
+function axpfw_xml_content_type( $content_type, $type ) {
 	if ( 'my_custom_feed' === $type ) {
 		return feed_content_type( 'rss2' );
 	}
 	return $content_type;
 }
-add_filter( 'feed_content_type', 'my_custom_rss_content_type', 10, 2 );
 
 /* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
-function my_custom_rss() {
+function axpfw_xml() {
 	header("Content-Type: application/xml; charset=utf-8");
-	$col = new collector();
+	$col = new SERVICE\axpfw_collector();
 	$col->collectOrders();
 
-	$axel = new axelProXML($col->getOrders());
+	$axel = new SERVICE\axpfw_xml_generator($col->getOrders());
 	$axel->generateXML();
 	print ($axel->getXML());
 	$col->setPostedOrdesStatus();
@@ -78,15 +83,6 @@ function axel_pro_woocommerce_payment_complete( $order_id ) {
 }
 add_action( 'woocommerce_order_status_completed', 'axel_pro_woocommerce_payment_complete', 10, 1 );
 
-add_action( 'init', 'my_rewrite' );
-function my_rewrite() {
-	global $wp_rewrite;
-
-	add_rewrite_rule('axelpro/?$', 'wp-login.php', 'top');
-	$wp_rewrite->flush_rules(true);  // This should really be done in a plugin activation
-}
-
-
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
@@ -117,7 +113,7 @@ class axel_pro_for_woocommerce
      * Constructor
      */
     public function __construct() {
-        $this->plugin_basename = plugin_basename(__FILE__);
+    	$this->plugin_basename = plugin_basename(__FILE__);
 
         $this->define( 'WPO_AXELPRO_VERSION', $this->version );
 
@@ -126,6 +122,8 @@ class axel_pro_for_woocommerce
         add_filter( 'load_textdomain_mofile', array( $this, 'textdomain_fallback' ), 10, 2 );
         add_action( 'plugins_loaded', array( $this, 'load_classes' ), 9 );
         add_action( 'in_plugin_update_message-'.$this->plugin_basename, array( $this, 'in_plugin_update_message' ) );
+
+
     }
 
     /**
@@ -226,17 +224,19 @@ class axel_pro_for_woocommerce
      */
     public function includes() {
         // Plugin classes
-        include_once( $this->plugin_path() . '/includes/dao/address.php' );
-        include_once( $this->plugin_path() . '/includes/dao/customer.php' );
-        include_once( $this->plugin_path() . '/includes/dao/item.php' );
-        include_once( $this->plugin_path() . '/includes/dao/order.php' );
-        $this->settings = include_once( $this->plugin_path() . '/includes/service/axel_pro_settings.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_address.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_customer.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_item.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/dao/axpfw_order.php' );
+        $this->settings = include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_settings.php' );
         //$this->main = include_once( $this->plugin_path() . '/includes/axel_pro_main.php' );
-        include_once( $this->plugin_path() . '/includes/service/collector.php' );
-	    include_once( $this->plugin_path() . '/includes/service/db.php' );
-        include_once( $this->plugin_path() . '/includes/service/axel-pro/axelProXML.php' );
-	    include_once( $this->plugin_path() . '/includes/service/impl/db/pdoDB.php' );
-	    include_once( $this->plugin_path() . '/includes/service/impl/db/wpDB.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_db.php' );
+        include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_xml_generator.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/impl/db/axpfw_pdoDB.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/impl/db/axpfw_wpDB.php' );
+	    include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_collector.php' );
+
+	    $this->functions = include_once( $this->plugin_path() . '/src/hu/bobnet/axpfw/service/axpfw_functions.php' );
     }
 
     /**
@@ -388,12 +388,6 @@ class axel_pro_for_woocommerce
 }
 endif; // class_exists
 
-/**
- * Returns the main instance of WooCommerce PDF Invoices & Packing Slips to prevent the need to use globals.
- *
- * @since  1.6
- * @return WPO_WCPDF
- */
 function axel_pro_for_woocommerce() {
     return axel_pro_for_woocommerce::instance();
 }
