@@ -3,7 +3,7 @@
 Plugin Name:  Axel Pro for Woocommerce WordPress
 Plugin URI:   https://bobnet.hu/download/axel-pro-for-woocommerce/
 Description:  Axel Por plugin for Woocommerce Wordpress
-Version:      20180228
+Version:      1.0.0
 Author:       Bobesz
 Author URI:   https://bobnet.hu/
 License:      GPLv3
@@ -21,17 +21,17 @@ Domain Path:  /languages
 
 use  HU\BOBNET\AXPFW\SERVICE;
 
-add_action('init', 'my_custom_rss_init');
-add_filter( 'feed_content_type', 'my_custom_rss_content_type', 10, 2);
+add_action('init', 'axpfw_xml_init');
+add_filter( 'feed_content_type', 'axpfw_xml_content_type', 10, 2);
 
 
 /* Add the feed. */
-function my_custom_rss_init(){
-	add_feed('axelpro', 'my_custom_rss');
+function axpfw_xml_init(){
+	add_feed('axelpro', 'axpfw_xml');
 }
 
 /* Filter the type, this hook wil set the correct HTTP header for Content-type. */
-function my_custom_rss_content_type( $content_type, $type ) {
+function axpfw_xml_content_type( $content_type, $type ) {
 	if ( 'my_custom_feed' === $type ) {
 		return feed_content_type( 'rss2' );
 	}
@@ -39,7 +39,7 @@ function my_custom_rss_content_type( $content_type, $type ) {
 }
 
 /* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
-function my_custom_rss() {
+function axpfw_xml() {
 	header("Content-Type: application/xml; charset=utf-8");
 	$col = new SERVICE\axpfw_collector();
 	$col->collectOrders();
