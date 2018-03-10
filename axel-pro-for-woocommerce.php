@@ -32,13 +32,13 @@ function axpfw_xml_init(){
 
 /* Filter the type, this hook wil set the correct HTTP header for Content-type. */
 function axpfw_xml_content_type( $content_type, $type ) {
-	if ( 'my_custom_feed' === $type ) {
+	if ( 'axpfw_xml_content_type' === $type ) {
 		return feed_content_type( 'rss2' );
 	}
 	return $content_type;
 }
 
-/* Show the RSS Feed on domain.com/?feed=my_custom_feed or domain.com/feed/my_custom_feed. */
+/* Show the RSS Feed on domain.com/?feed=axelpro or domain.com/feed/axelpro. */
 function axpfw_xml() {
 	header("Content-Type: application/xml; charset=utf-8");
 	$col = new SERVICE\axpfw_collector();
