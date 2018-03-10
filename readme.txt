@@ -11,7 +11,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 The plugin allows the integration of Axel pro billing software for woocommerce.
 
 == Description ==
-The plugin allows the integration of [Axel pro] (https://www.axel-szamlazo-program.hu/) billing software for woocommerce.
+The plugin allows the integration of [Axel pro](https://www.axel-szamlazo-program.hu/) billing software for woocommerce.
 
 = Features =
 
