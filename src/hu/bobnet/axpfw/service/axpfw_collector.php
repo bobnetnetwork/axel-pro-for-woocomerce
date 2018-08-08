@@ -36,17 +36,23 @@ class axpfw_collector
             $order = new DAO\axpfw_order();
             $order->orderID = $orderid['orderID'];
 
+            if($this->db->isBarion($order->orderID)){
+                $bar = $this->db->getBarionpaymentID($order->orderID);
+                foreach ($bar as $brow) {
+                    $order->barionid = $brow['meta_value'];
+                }
+
+            }
+
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
 
             //order items
-            foreach ($orderitemids as $orderitemid)
-            {
+            foreach ($orderitemids as $orderitemid) {
                 $item = new DAO\axpfw_item();
 
-                $itemmeta =  $this->db->getItemMetadata($orderitemid['order_item_id']);
+                $itemmeta = $this->db->getItemMetadata($orderitemid['order_item_id']);
 
-                foreach ($itemmeta as $row)
-                {
+                foreach ($itemmeta as $row) {
                     switch ($row['meta_key']) {
                         case '_product_id':
                             $item->itemID = $row['meta_value'];
@@ -64,6 +70,36 @@ class axpfw_collector
                 $itemname = $this->db->getItemName($item->itemID);
                 $item->name = $itemname['0']['post_title'];
                 $order->addItem($item);
+
+            }
+
+            //shipping
+            if ($this->db->getShipping) {
+                //results are empty, do something here
+            } else {
+                $shipping = $this->db->getOrderShippingMeta($order->orderID);
+
+
+                foreach ($shipping as $row) {
+                    $itemShip = new DAO\axpfw_item();
+
+                    $itemShip->name = "Szállítás - " . $row['order_item_name'];
+                    $itemShip->itemID = $row['order_item_id'];
+
+                    $valueandtax = $this->db->getShipValueAndTax($row['order_item_id']);
+                    foreach ($valueandtax as $row2) {
+                        switch ($row2['meta_key']) {
+                            case 'cost':
+                                $itemShip->value = $row2['meta_value'];
+                                break;
+                            case 'total_tax':
+                                $itemShip->tax = $row2['meta_value'];
+                                break;
+                        }
+                    }
+
+                    $order->addItem($itemShip);
+                }
             }
 
             $orderdate = $this->db->getOrderDate($order->orderID);

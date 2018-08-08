@@ -45,6 +45,8 @@ WooCommerce and the WooCommerce logo are trademarks or registered trademarks of 
   - Hit "Install Now", then enable the plugin
 
 == Changelog ==
+1.1.0 TAX fixing, barion
+1.0.1 Some bug fix
 1.0.0 First public version
 
 == Upgrade Notice ==
