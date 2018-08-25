@@ -1,102 +1,37 @@
 <script type="text/javascript">
              jQuery( function( $ ) {
-	             $("#footer-thankyou").html("If you like <strong>WooCommerce PDF Invoices & Packing Slips</strong> please leave us a <a href='https://wordpress.org/support/view/plugin-reviews/woocommerce-pdf-invoices-packing-slips?rate=5#postform'>★★★★★</a> rating. A huge thank you in advance!");
+	             $("#footer-thankyou").html("If you like <strong>Axel Pro for Woocommerce WordPress</strong> please leave us a <a href='https://wordpress.org/support/view/plugin-reviews/axel-pro-for-woocommerce?rate=5#postform'>★★★★★</a> rating. A huge thank you in advance!");
              });
 </script>
 
 <div class="wrap">
 	<div class="icon32" id="icon-options-general"><br /></div>
-	<h2><?php _e( 'Axel Pro for WooCommerce', 'axel-pro-for-woocommerce' ); ?></h2>
-    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/icon-128x128.png'; ?>" alt="">
-    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/bobesz_transparent_4096x4096.png'; ?>" alt="" width="128">
+	<h1><?php _e( 'Axel Pro for Woocommerce WordPress', 'axel-pro-for-woocommerce' ); ?></h1>
+
     <table>
         <tr>
-            <td>Author</td>
+            <td><h2>Author</h2></td>
             <td>Bobesz</td>
         </tr>
         <tr>
-            <td>Feedback</td>
+            <td><h2>Feedback</h2></td>
             <td><a href="https://support.bobnet.hu" target="_blank">https://support.bobnet.hu</a></td>
         </tr>
         <tr>
-            <td>Sourcecode</td>
+            <td><h2>Sourcecode</h2></td>
             <td><a href="https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce" target="_blank">https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce</a></td>
         </tr>
         <tr>
-            <td>XML url</td>
+            <td><h2>XML url</h2></td>
             <td><a href="<?php echo get_site_url() . '/?feed=axelpro'; ?>" target="_blank"><?php echo get_site_url() . '/?feed=axelpro'; ?></a></td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
+            <td><h2>License</h2></td>
+            <td>GPLv3</td>
         </tr>
     </table>
-	<h2 class="nav-tab-wrapper">
-		<?php
-		foreach ($settings_tabs as $tab_slug => $tab_title ) {
-			$tab_link = esc_url("?page=wpo_axel_pro_options_page&tab={$tab_slug}");
-			printf('<a href="%1$s" class="nav-tab nav-tab-%2$s %3$s">%4$s</a>', $tab_link, $tab_slug, (($active_tab == $tab_slug) ? 'nav-tab-active' : ''), $tab_title);
-		}
-		?>
-	</h2>
-
-	<?php
-	do_action( 'wpo_axel_pro_before_settings_page', $active_tab, $active_section );
-
-	// save or check option to hide extensions ad
-	if ( isset( $_GET['wpo_axel_pro_hide_extensions_ad'] ) ) {
-		update_option( 'wpo_axel_pro_hide_extensions_ad', true );
-		$hide_ad = true;
-	} else {
-		$hide_ad = get_option( 'wpo_axel_pro_hide_extensions_ad' );
-	}
-
-	if ( !$hide_ad && !( class_exists('WooCommerce_PDF_IPS_Pro') && class_exists('WooCommerce_PDF_IPS_Dropbox') && class_exists('WooCommerce_PDF_IPS_Templates') && class_exists('WooCommerce_Ext_PrintOrders') ) ) {
-		include('axel_pro_extensions.php');
-	}
-
-	?>
-	<form method="post" action="options.php" id="wpo-axel_pro-settings" class="<?php echo "{$active_tab} {$active_section}"; ?>">
-		<?php
-		do_action( 'wpo_axel_pro_before_settings', $active_tab, $active_section );
-		if ( has_action( 'wpo_axel_pro_settings_output_'.$active_tab ) ) {
-			do_action( 'wpo_axel_pro_settings_output_'.$active_tab, $active_section );
-		} else {
-			// legacy settings
-			settings_fields( "wpo_axel_pro_{$active_tab}_settings" );
-			do_settings_sections( "wpo_axel_pro_{$active_tab}_settings" );
-
-			submit_button();
-		}
-		do_action( 'wpo_axel_pro_after_settings', $active_tab, $active_section );
-		?>
-
-	</form>
-	<?php do_action( 'wpo_axel_pro_after_settings_page', $active_tab, $active_section ); ?>
+    <br />
+    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/icon-128x128.png'; ?>" alt="">
+    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/bobesz_transparent_4096x4096.png'; ?>" alt="" width="128">
+    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/stacked_wm_no_bg.png'; ?>" alt="" width="128">
 </div>
-<?php
-/**
- * Created by PhpStorm.
- * User: Bobesz
- * Date: 2/28/2018
- * Time: 5:07 PM
- */
-/*
-$collector = new collector();
-$collector->collectOrders();
-
-$xml = new axelProXML($collector->getOrders());
-$xml->generateXML();
-*/

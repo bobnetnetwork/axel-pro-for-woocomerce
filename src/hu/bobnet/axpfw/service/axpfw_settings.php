@@ -56,7 +56,8 @@ class axpfw_settings
 		if ( $file == axel_pro_for_woocommerce()->plugin_basename ) {
 			$row_meta = array(
 				'docs'    => '<a href="https://bobnet.hu/download/axel-pro-for-woocommerce/" target="_blank" title="' . __( 'Documentation', 'axel-pro-for-woocommerce' ) . '">' . __( 'Documentation', 'axel-pro-for-woocommerce' ) . '</a>',
-				'support' => '<a href="http://gitlab.bobnet.hu:8060/sourcecodes/axel-pro-for-woocommerce/issues" target="_blank" title="' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '">' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '</a>',
+				'support' => '<a href="http://support.bobnet.hu" target="_blank" title="' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '">' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '</a>',
+                'sourcecode' => '<a href="https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce" target="_blank" title="' . __( 'Sourcecode', 'axel-pro-for-woocommerce' ) . '">' . __( 'Sourcecode', 'axel-pro-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );

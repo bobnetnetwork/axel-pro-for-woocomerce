@@ -27,7 +27,7 @@ You're welcome to contribute to this open source plugin by creating pull-request
 
 = Bugs =
 
-[Please report bugs as GitLab issues.](http://gitlab.bobnet.hu:8060/sourcecodes/axel-pro-for-woocommerce/issues)
+[Please report bugs as osTicket ticket.](https://support.bobnet.hu)
 
 Axel Pro logo are trademarks or registered trademarks of AXEL Professional Softwares Kft.
 
@@ -45,6 +45,7 @@ WooCommerce and the WooCommerce logo are trademarks or registered trademarks of 
   - Hit "Install Now", then enable the plugin
 
 == Changelog ==
+1.1.1 Info page
 1.1.0 TAX fixing, barion
 1.0.1 Some bug fix
 1.0.0 First public version
