@@ -6,7 +6,43 @@
 
 <div class="wrap">
 	<div class="icon32" id="icon-options-general"><br /></div>
-	<h2><?php _e( 'WooCommerce Axel Pro', 'axel-pro-for-woocommerce' ); ?></h2>
+	<h2><?php _e( 'Axel Pro for WooCommerce', 'axel-pro-for-woocommerce' ); ?></h2>
+    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/icon-128x128.png'; ?>" alt="">
+    <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/images/bobesz_transparent_4096x4096.png'; ?>" alt="" width="128">
+    <table>
+        <tr>
+            <td>Author</td>
+            <td>Bobesz</td>
+        </tr>
+        <tr>
+            <td>Feedback</td>
+            <td><a href="https://support.bobnet.hu" target="_blank">https://support.bobnet.hu</a></td>
+        </tr>
+        <tr>
+            <td>Sourcecode</td>
+            <td><a href="https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce" target="_blank">https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce</a></td>
+        </tr>
+        <tr>
+            <td>XML url</td>
+            <td><a href="<?php echo get_site_url() . '/?feed=axelpro'; ?>" target="_blank"><?php echo get_site_url() . '/?feed=axelpro'; ?></a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
 	<h2 class="nav-tab-wrapper">
 		<?php
 		foreach ($settings_tabs as $tab_slug => $tab_title ) {

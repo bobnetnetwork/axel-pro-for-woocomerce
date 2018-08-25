@@ -29,7 +29,7 @@ class axpfw_settings
 	}
 
 	public function menu() {
-		/*$this->options_page_hook_bnn = add_menu_page(
+		$this->options_page_hook_bnn = add_menu_page(
 			__( 'BobNET Network', 'axel-pro-for-woocommerce' ),
 			__( 'BobNET Network', 'axel-pro-for-woocommerce' ),
 			'manage_bobnet',
@@ -45,7 +45,7 @@ class axpfw_settings
 			'manage_woocommerce',
 			'wpo_axel_pro_options_page',
 			array( $this, 'settings_page' )
-		);*/
+		);
 	}
 
 	/**
@@ -78,17 +78,17 @@ class axpfw_settings
 	public function settings_page() {
 		$settings_tabs = apply_filters( 'wpo_axelpro_settings_tabs', array (
 				'general'	=> __('General', 'axel-pro-for-woocommerce' ),
-				'documents'	=> __('Documents', 'axel-pro-for-woocommerce' ),
+				'settings'	=> __('Settings', 'axel-pro-for-woocommerce' ),
 			)
 		);
 
 		// add status tab last in row
-		$settings_tabs['debug'] = __('Status', 'axel-pro-for-woocommerce' );
+		//$settings_tabs['debug'] = __('Status', 'axel-pro-for-woocommerce' );
 
 		$active_tab = isset( $_GET[ 'tab' ] ) ? sanitize_text_field( $_GET[ 'tab' ] ) : 'general';
 		$active_section = isset( $_GET[ 'section' ] ) ? sanitize_text_field( $_GET[ 'section' ] ) : '';
 
-		include(axel_pro_for_woocommerce()->plugin_path().'/includes/views/axel_pro_settings_page.php');
+		include(axel_pro_for_woocommerce()->plugin_path().'/src/hu/bobnet/axpfw/views/axel_pro_settings_page.php');
 	}
 }
 endif; // class_exists
