@@ -23,7 +23,7 @@ I'd be happy to hear your feedback! Feel free to contact me at bobesz@bobnet.hu
 
 = Contribution =
 
-You're welcome to contribute to this open source plugin by creating pull-requests on [BobNET Network GitLab](http://gitlab.bobnet.hu:8060/sourcecodes/axel-pro-for-woocommerce) . To do this, you need to fork the repository, implement the changes and push them to your fork. After that you can create a pull request to merge changes from your fork the main repository.
+You're welcome to contribute to this open source plugin by creating pull-requests on [BobNET Network GitLab](https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocommerce) . To do this, you need to fork the repository, implement the changes and push them to your fork. After that you can create a pull request to merge changes from your fork the main repository.
 
 = Bugs =
 
