@@ -88,12 +88,17 @@ abstract class axpfw_db  {
         return $this->query('SELECT * FROM '.$this->prefix.'woocommerce_order_itemmeta WHERE order_item_id = '.$shipID.' AND (meta_key in (\'total_tax\', \'cost\' ))');
     }
 	public function getItemMetadata($itemID){
-		return $this->query('SELECT * FROM '.$this->prefix.'woocommerce_order_itemmeta WHERE order_item_id = '.$itemID.' AND (meta_key in (\'_product_id\', \'_line_subtotal\', \'_line_subtotal_tax\'))');
+		return $this->query('SELECT * FROM '.$this->prefix.'woocommerce_order_itemmeta WHERE order_item_id = '.$itemID.' AND (meta_key in (\'_product_id\', \'_line_subtotal\', \'_line_subtotal_tax\', \'_qty\'))');
 	}
 
 	public function getItemName($itemID){
 		return $this->query('SELECT post_title FROM '.$this->prefix.'posts WHERE ID = '.$itemID);
 	}
+
+	public function getItemPrice($productid){
+	    $str = 'SELECT * FROM '.$this->prefix.'postmeta WHERE post_id = '.$productid.' AND (meta_key in (\'_price\'))';
+        return $this->query($str);
+    }
 
 	public function getOrderDate($orderID){
 		return $this->query('SELECT post_date FROM '.$this->prefix.'posts WHERE ID = '.$orderID);

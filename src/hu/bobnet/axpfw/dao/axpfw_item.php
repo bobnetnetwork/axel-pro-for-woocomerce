@@ -16,7 +16,7 @@ if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_item' ) ) :
 
 class axpfw_item
 {
-    private $itemID, $tax, $value, $name;
+    private $itemID, $tax, $value, $name, $count, $price;
 
     public function __construct(){
 

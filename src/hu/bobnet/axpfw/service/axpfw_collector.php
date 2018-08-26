@@ -68,8 +68,16 @@ class axpfw_collector
                         case '_line_subtotal_tax':
                             $item->tax = $row['meta_value'];
                             break;
+                        case '_qty':
+                            $item->count = $row['meta_value'];
+                            break;
                     }
 
+                }
+
+                $price = $this->db->getItemPrice($item->itemID);
+                foreach ($price as $prow){
+                    $item->price = $prow['meta_value'];
                 }
 
                 $itemname = $this->db->getItemName($item->itemID);
