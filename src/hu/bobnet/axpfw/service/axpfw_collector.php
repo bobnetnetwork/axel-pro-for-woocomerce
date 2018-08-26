@@ -229,7 +229,7 @@ class axpfw_collector
 
 	public function setPostedOrdesStatus(){
     	foreach ($this->orders as &$order){
-			//$this->db->setPosted($order->orderID);
+			$this->db->setPosted($order->orderID);
 	    }
 	}
 
