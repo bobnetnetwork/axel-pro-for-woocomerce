@@ -93,9 +93,9 @@ class axpfw_xml_generator
             foreach ($items as &$item) {
                 $TRANS_ITEM = $TRANS_ITEMS->addChild('TRANS_ITEM');
                 $ITM_NAME = $TRANS_ITEM->addChild('ITM_NAME', $item->name);
-                $ITM_PRICE_PRICE = $TRANS_ITEM->addChild('ITM_PRICE_PRICE', ($item->price == null) ? $item->value : $item->price);
-                $ITM_PRICE_DISCOUNT = $TRANS_ITEM->addChild('ITM_PRICE_DISCOUNT', ($item->price == null) ? $item->value : $item->price);
-                $ITM_PRICE_ORIG = $TRANS_ITEM->addChild('ITM_PRICE_ORIG',($item->price == null) ? $item->value : $item->price);
+                $ITM_PRICE_PRICE = $TRANS_ITEM->addChild('ITM_PRICE_PRICE', $item->price/*($item->price == null) ? $item->value : $item->price*/);
+                $ITM_PRICE_DISCOUNT = $TRANS_ITEM->addChild('ITM_PRICE_DISCOUNT', $item->discount/*($item->price == null) ? $item->value : $item->price*/);
+                $ITM_PRICE_ORIG = $TRANS_ITEM->addChild('ITM_PRICE_ORIG', $item->origPrice/*($item->price == null) ? $item->value : $item->price*/);
                 $ITM_PRICE_VAT_SHORT = $TRANS_ITEM->addChild('ITM_PRICE_VAT_SHORT', (intval($item->tax) / intval($item->value)) *100 );
                 $ITM_DATETIME = $TRANS_ITEM->addChild('ITM_DATETIME', $order->date);
                 $ITM_AMOUNT = $TRANS_ITEM->addChild('ITM_AMOUNT', ($item->count == null)? 1: $item->count);
