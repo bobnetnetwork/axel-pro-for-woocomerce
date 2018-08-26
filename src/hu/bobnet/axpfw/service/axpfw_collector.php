@@ -98,7 +98,7 @@ class axpfw_collector
                 }
 
                 if($item->origPrice != null && $item->price != null){
-                    $item->discount = $item->origPrice - $item->price;
+                    $item->discount = (($item->origPrice - $item->price) / $item->origPrice) * 100;
                 }else {
                     echo "sdsd";
                     $item->discount = 0;
@@ -259,7 +259,7 @@ class axpfw_collector
 
 	public function setPostedOrdesStatus(){
     	foreach ($this->orders as &$order){
-			//$this->db->setPosted($order->orderID);
+			$this->db->setPosted($order->orderID);
 	    }
 	}
 
