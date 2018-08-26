@@ -3,7 +3,7 @@
 Plugin Name:  Axel Pro for Woocommerce WordPress
 Plugin URI:   https://bobnet.hu/download/axel-pro-for-woocommerce/
 Description:  Axel Por plugin for Woocommerce Wordpress
-Version:      1.1.3
+Version:      1.1.5
 Author:       Bobesz
 Author URI:   https://bobnet.hu/
 License:      GPLv3

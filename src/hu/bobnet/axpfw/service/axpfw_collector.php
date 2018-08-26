@@ -80,13 +80,32 @@ class axpfw_collector
                             $item->count = $row['meta_value'];
                             break;
                     }
-
                 }
 
-                $price = $this->db->getItemPrice($item->itemID);
-                foreach ($price as $prow){
-                    $item->price = $prow['meta_value'];
+                $prices = $this->db->getItemPrices($item->itemID);
+                foreach ($prices as $prow){
+                    switch ($prow['meta_key']) {
+                        case '_regular_price':
+                            $item->origPrice = $prow['meta_value'];
+                            break;
+                        case '_sale_price':
+                            //$item->value = $row['meta_value'];
+                            break;
+                        case '_price':
+                            $item->price = $prow['meta_value'];
+                            break;
+                    }
                 }
+
+                if($item->origPrice != null && $item->price != null){
+                    $item->discount = (($item->origPrice - $item->price) / $item->origPrice) * 100;
+                }else {
+                    echo "sdsd";
+                    $item->discount = 0;
+                    $item->price = $item->value;
+                    $item->origPrice = $item->value;
+                }
+
 
                 $itemname = $this->db->getItemName($item->itemID);
                 $item->name = $itemname['0']['post_title'];
@@ -112,6 +131,9 @@ class axpfw_collector
                         switch ($row2['meta_key']) {
                             case 'cost':
                                 $itemShip->value = $row2['meta_value'];
+                                $itemShip->discount = 0;
+                                $itemShip->price = $itemShip->value;
+                                $itemShip->origPrice = $itemShip->value;
                                 break;
                             case 'total_tax':
                                 $itemShip->tax = $row2['meta_value'];
@@ -237,7 +259,7 @@ class axpfw_collector
 
 	public function setPostedOrdesStatus(){
     	foreach ($this->orders as &$order){
-			//$this->db->setPosted($order->orderID);
+			$this->db->setPosted($order->orderID);
 	    }
 	}
 

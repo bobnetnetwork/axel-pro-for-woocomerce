@@ -114,6 +114,10 @@ abstract class axpfw_db  {
 		return $this->query('SELECT post_title FROM '.$this->prefix.'posts WHERE ID = '.$itemID);
 	}
 
+	public function getItemPrices($itemID){
+        return $this->query('SELECT * FROM '.$this->prefix.'postmeta WHERE post_id = '.$itemID.' AND meta_key in (\'_regular_price\', \'_sale_price\', \'_price\')');
+    }
+
 	public function getItemPrice($productid){
 	    $str = 'SELECT * FROM '.$this->prefix.'postmeta WHERE post_id = '.$productid.' AND (meta_key in (\'_price\'))';
         return $this->query($str);
