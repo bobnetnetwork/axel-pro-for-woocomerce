@@ -41,11 +41,19 @@ class axpfw_collector
                 foreach ($bar as $brow) {
                     $order->barionid = $brow['meta_value'];
                 }
-
             }else if($this->db->isPaypal($order->orderID)){
                 $paypal = $this->db->getPaypalpaymentID($order->orderID);
                 foreach ($paypal as $prow) {
                     $order->paypalid = $prow['meta_value'];
+                }
+            }else if($this->db->isBigFish($order->orderID)){
+                $bigfish = $this->db->getBigFishpaymentID($order->orderID);
+                foreach ($bigfish as $bfrow) {
+                    $order->bigfishlid = $bfrow['meta_value'];
+                }
+                $bigfishtitle = $this->db->getBigFishTitle($order->orderID);
+                foreach ($bigfishtitle as $bftrow) {
+                    $order->bigfishtitle = $bftrow['meta_value'];
                 }
             }
 
@@ -229,7 +237,7 @@ class axpfw_collector
 
 	public function setPostedOrdesStatus(){
     	foreach ($this->orders as &$order){
-			$this->db->setPosted($order->orderID);
+			//$this->db->setPosted($order->orderID);
 	    }
 	}
 

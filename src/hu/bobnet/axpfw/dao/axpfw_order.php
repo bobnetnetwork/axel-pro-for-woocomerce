@@ -16,7 +16,7 @@ if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_order' ) ) :
 
 class axpfw_order
 {
-    private $orderID, $billing_customer, $shipping_customer, $date, $payment_method, $value, $tax, $currency, $barionid, $paypalid;
+    private $orderID, $billing_customer, $shipping_customer, $date, $payment_method, $value, $tax, $currency, $barionid, $paypalid, $bigfishlid, $bigfishtitle;
     private $items = array();
 
     public function __construct(){

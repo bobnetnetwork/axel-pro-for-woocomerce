@@ -61,6 +61,10 @@ class axpfw_xml_generator
                     $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', 'paypal');
                     $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT', 'Paypal paymentId: '.$order->paypalid);
                     break;
+                case (preg_match('/BigFishPaymentGateway.*/', $order->payment_method) ? true : false) :
+                    $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', 'bankkártya');
+                    $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT', $order->bigfishtitle.' paymentId: '.$order->bigfishlid);
+                    break;
                 default:
                     $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', $order->payment_method);
                     $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT');
