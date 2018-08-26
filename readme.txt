@@ -45,6 +45,7 @@ WooCommerce and the WooCommerce logo are trademarks or registered trademarks of 
   - Hit "Install Now", then enable the plugin
 
 == Changelog ==
+1.1.4 discount fix
 1.1.3 BIG FISH Payment Gateway Support
 1.1.2 Some bug fix, and more payment methods
 1.1.1 Info page
