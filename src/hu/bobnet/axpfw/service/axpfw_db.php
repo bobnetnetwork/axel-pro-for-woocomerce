@@ -61,8 +61,23 @@ abstract class axpfw_db  {
         }
     }
 
+    public function isPaypal($orderID){
+        $sh = $this->query('SELECT count(*) AS \'count\' FROM '.$this->prefix.'postmeta WHERE post_id = '.$orderID.' AND `meta_value` = \'paypal\'');
+        foreach ($sh as $row){
+            if(intval($row['count']) == 0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
     public function getBarionpaymentID($orderID){
         return $this->query('SELECT * FROM '.$this->prefix.'postmeta WHERE post_id = '.$orderID.' AND `meta_key` = \'Barion paymentId\'');
+    }
+
+    public function getPaypalpaymentID($orderID){
+        return $this->query('SELECT * FROM '.$this->prefix.'postmeta WHERE post_id = '.$orderID.' AND `meta_key` = \'_transaction_id\'');
     }
 
 	public function getOrderShippingMeta($orderID){

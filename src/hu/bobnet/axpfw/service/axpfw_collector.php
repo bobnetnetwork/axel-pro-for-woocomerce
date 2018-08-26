@@ -42,6 +42,11 @@ class axpfw_collector
                     $order->barionid = $brow['meta_value'];
                 }
 
+            }else if($this->db->isPaypal($order->orderID)){
+                $paypal = $this->db->getPaypalpaymentID($order->orderID);
+                foreach ($paypal as $prow) {
+                    $order->paypalid = $prow['meta_value'];
+                }
             }
 
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
@@ -216,7 +221,7 @@ class axpfw_collector
 
 	public function setPostedOrdesStatus(){
     	foreach ($this->orders as &$order){
-			$this->db->setPosted($order->orderID);
+			//$this->db->setPosted($order->orderID);
 	    }
 	}
 
