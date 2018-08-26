@@ -42,6 +42,11 @@ class axpfw_collector
                     $order->barionid = $brow['meta_value'];
                 }
 
+            }else if($this->db->isPaypal($order->orderID)){
+                $paypal = $this->db->getPaypalpaymentID($order->orderID);
+                foreach ($paypal as $prow) {
+                    $order->paypalid = $prow['meta_value'];
+                }
             }
 
             $orderitemids =  $this->db->getOrderItemIDs($order->orderID);
@@ -63,8 +68,16 @@ class axpfw_collector
                         case '_line_subtotal_tax':
                             $item->tax = $row['meta_value'];
                             break;
+                        case '_qty':
+                            $item->count = $row['meta_value'];
+                            break;
                     }
 
+                }
+
+                $price = $this->db->getItemPrice($item->itemID);
+                foreach ($price as $prow){
+                    $item->price = $prow['meta_value'];
                 }
 
                 $itemname = $this->db->getItemName($item->itemID);

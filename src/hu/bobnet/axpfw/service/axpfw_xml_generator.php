@@ -49,6 +49,22 @@ class axpfw_xml_generator
                     $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', 'átutalás');
                     $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT');
                     break;
+                case 'cod':
+                    $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', 'utánvét');
+                    $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT');
+                    break;
+                case 'cheque':
+                    $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', 'készpénz');
+                    $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT');
+                    break;
+                case 'paypal':
+                    $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', 'paypal');
+                    $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT', 'Paypal paymentId: '.$order->paypalid);
+                    break;
+                default:
+                    $IMG_PAY_NAME = $TRANS_HEAD->addChild('IMG_PAY_NAME', $order->payment_method);
+                    $IMG_COMMENT = $TRANS_HEAD->addChild('IMG_COMMENT');
+                    break;
             }
             $IMG_CURR = $TRANS_HEAD->addChild('IMG_CURR', $order->currency);
             $IMG_RATE = $TRANS_HEAD->addChild('IMG_RATE', 1);
@@ -73,12 +89,12 @@ class axpfw_xml_generator
             foreach ($items as &$item) {
                 $TRANS_ITEM = $TRANS_ITEMS->addChild('TRANS_ITEM');
                 $ITM_NAME = $TRANS_ITEM->addChild('ITM_NAME', $item->name);
-                $ITM_PRICE_PRICE = $TRANS_ITEM->addChild('ITM_PRICE_PRICE', $item->value);
-                $ITM_PRICE_DISCOUNT = $TRANS_ITEM->addChild('ITM_PRICE_DISCOUNT', $item->value);
-                $ITM_PRICE_ORIG = $TRANS_ITEM->addChild('ITM_PRICE_ORIG', $item->value);
+                $ITM_PRICE_PRICE = $TRANS_ITEM->addChild('ITM_PRICE_PRICE', ($item->price == null) ? $item->value : $item->price);
+                $ITM_PRICE_DISCOUNT = $TRANS_ITEM->addChild('ITM_PRICE_DISCOUNT', ($item->price == null) ? $item->value : $item->price);
+                $ITM_PRICE_ORIG = $TRANS_ITEM->addChild('ITM_PRICE_ORIG',($item->price == null) ? $item->value : $item->price);
                 $ITM_PRICE_VAT_SHORT = $TRANS_ITEM->addChild('ITM_PRICE_VAT_SHORT', (intval($item->tax) / intval($item->value)) *100 );
                 $ITM_DATETIME = $TRANS_ITEM->addChild('ITM_DATETIME', $order->date);
-                $ITM_AMOUNT = $TRANS_ITEM->addChild('ITM_AMOUNT', 1);
+                $ITM_AMOUNT = $TRANS_ITEM->addChild('ITM_AMOUNT', ($item->count == null)? 1: $item->count);
                 $ITM_UNIT = $TRANS_ITEM->addChild('ITM_UNIT', 'db');
                 $ITM_VTSZSZJ = $TRANS_ITEM->addChild('ITM_VTSZSZJ');
                 $ITM_ORD = $TRANS_ITEM->addChild('ITM_ORD', $i);
