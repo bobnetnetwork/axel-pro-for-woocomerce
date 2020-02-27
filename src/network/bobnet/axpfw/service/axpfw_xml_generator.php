@@ -6,13 +6,13 @@
  * Time: 1:29 AM
  */
 
-namespace HU\BOBNET\AXPFW\SERVICE;
+namespace NETWORK\BOBNET\AXPFW\SERVICE;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_xml_generator' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\SERVICE\\axpfw_xml_generator' ) ) :
 
 class axpfw_xml_generator
 {

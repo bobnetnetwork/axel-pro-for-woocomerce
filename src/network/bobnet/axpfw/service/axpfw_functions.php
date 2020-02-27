@@ -6,15 +6,15 @@
  * Time: 2:42 PM
  */
 
-namespace HU\BOBNET\AXPFW\SERVICE;
+namespace NETWORK\BOBNET\AXPFW\SERVICE;
 
-use HU\BOBNET\AXPFW\SERVICE;
+use NETWORK\BOBNET\AXPFW\SERVICE;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_functions' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\SERVICE\\axpfw_functions' ) ) :
 
 class axpfw_functions {
 /*

@@ -6,13 +6,13 @@
  * Time: 9:14 PM
  */
 
-namespace HU\BOBNET\AXPFW\DAO;
+namespace NETWORK\BOBNET\AXPFW\DAO;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_item' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\DAO\\axpfw_item' ) ) :
 
 class axpfw_item
 {

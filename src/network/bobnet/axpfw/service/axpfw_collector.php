@@ -6,16 +6,16 @@
  * Time: 1:35 AM
  */
 
-namespace HU\BOBNET\AXPFW\SERVICE;
+namespace NETWORK\BOBNET\AXPFW\SERVICE;
 
-use HU\BOBNET\AXPFW\DAO;
-use  HU\BOBNET\AXPFW\SERVICE\IMPL\DB;
+use NETWORK\BOBNET\AXPFW\DAO;
+use  NETWORK\BOBNET\AXPFW\SERVICE\IMPL\DB;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_collector' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\SERVICE\\axpfw_collector' ) ) :
 
 class axpfw_collector
 {

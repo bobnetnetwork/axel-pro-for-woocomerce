@@ -6,13 +6,13 @@
  * Time: 11:29 AM
  */
 
-namespace HU\BOBNET\AXPFW\SERVICE;
+namespace NETWORK\BOBNET\AXPFW\SERVICE;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_db' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\SERVICE\\axpfw_db' ) ) :
 
 abstract class axpfw_db  {
 	protected $host, $port, $user, $pwd, $dbname, $charset, $prefix;

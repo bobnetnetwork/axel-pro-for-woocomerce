@@ -3,23 +3,27 @@
  * Created by PhpStorm.
  * User: Bobesz
  * Date: 2/27/2018
- * Time: 9:30 PM
+ * Time: 9:14 PM
  */
 
-namespace HU\BOBNET\AXPFW\DAO;
+namespace NETWORK\BOBNET\AXPFW\DAO;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\DAO\\axpfw_address' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\DAO\\axpfw_order' ) ) :
 
-class axpfw_address
+class axpfw_order
 {
-    private $postcode, $country, $address1, $address2, $city, $state;
+    private $orderID, $billing_customer, $shipping_customer, $date, $payment_method, $value, $tax, $currency, $barionid, $paypalid, $bigfishlid, $bigfishtitle;
+    private $items = array();
 
     public function __construct(){
+    }
 
+    public function addItem($item){
+        $this->items[] = $item;
     }
 
     public function __get($property) {
@@ -38,4 +42,4 @@ class axpfw_address
 }
 endif; // class_exists
 
-return new axpfw_address();
+return new axpfw_order();

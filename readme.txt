@@ -19,7 +19,7 @@ The plugin allows the integration of [Axel pro](https://www.axel-szamlazo-progra
 
 = Feedback =
 
-I'd be happy to hear your feedback! Feel free to contact me at bobesz@bobnet.hu 
+I'd be happy to hear your feedback! Feel free to contact me at bobesz@bobnet.network
 
 = Contribution =
 
@@ -27,7 +27,7 @@ You're welcome to contribute to this open source plugin by creating pull-request
 
 = Bugs =
 
-[Please report bugs as osTicket ticket.](https://support.bobnet.hu)
+[Please report bugs as osTicket ticket.](https://support.bobnet.network)
 
 Axel Pro logo are trademarks or registered trademarks of AXEL Professional Softwares Kft.
 

@@ -6,15 +6,15 @@
  * Time: 12:52 PM
  */
 
-namespace HU\BOBNET\AXPFW\SERVICE;
+namespace NETWORK\BOBNET\AXPFW\SERVICE;
 
-use HU\BOBNET\AXPFW\SERVICE;
+use NETWORK\BOBNET\AXPFW\SERVICE;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\HU\\BOBNET\\AXPFW\\SERVICE\\axpfw_settings' ) ) :
+if ( !class_exists( '\\NETWORK\\BOBNET\\AXPFW\\SERVICE\\axpfw_settings' ) ) :
 
 class axpfw_settings
 {
@@ -55,9 +55,9 @@ class axpfw_settings
 	public function add_support_links( $links, $file ) {
 		if ( $file == axel_pro_for_woocommerce()->plugin_basename ) {
 			$row_meta = array(
-				'docs'    => '<a href="https://bobnet.hu/download/axel-pro-for-woocommerce/" target="_blank" title="' . __( 'Documentation', 'axel-pro-for-woocommerce' ) . '">' . __( 'Documentation', 'axel-pro-for-woocommerce' ) . '</a>',
-				'support' => '<a href="http://support.bobnet.hu" target="_blank" title="' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '">' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '</a>',
-                'sourcecode' => '<a href="https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce" target="_blank" title="' . __( 'Sourcecode', 'axel-pro-for-woocommerce' ) . '">' . __( 'Sourcecode', 'axel-pro-for-woocommerce' ) . '</a>',
+				'docs'    => '<a href="https://bobnet.network/download/axel-pro-for-woocommerce/" target="_blank" title="' . __( 'Documentation', 'axel-pro-for-woocommerce' ) . '">' . __( 'Documentation', 'axel-pro-for-woocommerce' ) . '</a>',
+				'support' => '<a href="http://support.bobnet.network" target="_blank" title="' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '">' . __( 'Bug report', 'axel-pro-for-woocommerce' ) . '</a>',
+                'sourcecode' => '<a href="https://gitlab.bobnet.network/sourcecodes/axel-pro-for-woocomerce" target="_blank" title="' . __( 'Sourcecode', 'axel-pro-for-woocommerce' ) . '">' . __( 'Sourcecode', 'axel-pro-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );
@@ -89,7 +89,7 @@ class axpfw_settings
 		$active_tab = isset( $_GET[ 'tab' ] ) ? sanitize_text_field( $_GET[ 'tab' ] ) : 'general';
 		$active_section = isset( $_GET[ 'section' ] ) ? sanitize_text_field( $_GET[ 'section' ] ) : '';
 
-		include(axel_pro_for_woocommerce()->plugin_path().'/src/hu/bobnet/axpfw/views/axel_pro_settings_page.php');
+		include(axel_pro_for_woocommerce()->plugin_path().'/src/network/bobnet/axpfw/views/axel_pro_settings_page.php');
 	}
 }
 endif; // class_exists

@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name:  Axel Pro for Woocommerce WordPress
-Plugin URI:   https://bobnet.hu/download/axel-pro-for-woocommerce/
+Plugin URI:   https://bobnet.network/download/axel-pro-for-woocommerce/
 Description:  Axel Por plugin for Woocommerce Wordpress
 Version:      1.1.5
 Author:       Bobesz
-Author URI:   https://bobnet.hu/
+Author URI:   https://bobnet.network/
 License:      GPLv3
 License URI:  https://www.gnu.org/licenses/gpl-3.0.en.html
 Text Domain:  axel-pro-for-woocommerce
@@ -19,7 +19,7 @@ Domain Path:  /languages
  * Time: 8:03 PM
  */
 
-use  HU\BOBNET\AXPFW\SERVICE;
+use  NETWORK\BOBNET\AXPFW\SERVICE;
 
 add_action('init', 'axpfw_xml_init');
 add_filter( 'feed_content_type', 'axpfw_xml_content_type', 10, 2);

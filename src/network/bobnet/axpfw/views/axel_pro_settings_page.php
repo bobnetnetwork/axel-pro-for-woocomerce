@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <td><h2>Sourcecode</h2></td>
-            <td><a href="https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce" target="_blank">https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce</a></td>
+            <td><a href="https://gitlab.bobnet.network/sourcecodes/axel-pro-for-woocomerce" target="_blank">https://gitlab.bobnet.hu/sourcecodes/axel-pro-for-woocomerce</a></td>
         </tr>
         <tr>
             <td><h2>XML url</h2></td>
